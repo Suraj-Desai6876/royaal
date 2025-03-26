@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Summary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f9f1f0; /* Ivory */
+            color: #663635; /* Marsala */
+        }
+        .purchase-table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #f9f1f0; /* Ivory */
+        }
+        th, td {
+            border: 1px solid #663635; /* Marsala */
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #e1999f; /* Rosewater */
+            color: white;
+        }
+        .btn {
+            background-color: #663635; /* Marsala */
+            color: white;
+            margin: 10px;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+        .btn:hover {
+            background-color: #deb3ad; /* Dusty Rose */
+        }
+        .delete-btn {
+            background-color: #e1999f; /* Rosewater */
+        }
+        .delete-btn:hover {
+            background-color: #deb3ad; /* Dusty Rose */
+        }
+        .container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Purchase Summary</h1>
+        
+        <table class="striped purchase-table" id="purchaseTable">
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+                <th>Action</th>
+            </tr>
+        </table>
+        
+        <h2>Total Price: <span id="totalPrice">0</span> rupees</h2>
+        <button class="btn" onclick="goBack()">Back</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let purchases = JSON.parse(localStorage.getItem("purchases")) || [];
+            let table = document.getElementById("purchaseTable");
+            let totalPrice = 0;
+            
+            purchases.forEach((item, index) => {
+                let row = table.insertRow();
+                row.insertCell(0).innerText = item.product;
+                row.insertCell(1).innerText = item.price + " rupees";
+                row.insertCell(2).innerText = item.quantity;
+                row.insertCell(3).innerText = item.totalPrice + " rupees";
+                
+                let deleteCell = row.insertCell(4);
+                let deleteBtn = document.createElement("button");
+                deleteBtn.innerText = "Delete";
+                deleteBtn.className = "btn delete-btn";
+                deleteBtn.onclick = function() {
+                    purchases.splice(index, 1);
+                    localStorage.setItem("purchases", JSON.stringify(purchases));
+                    location.reload();
+                };
+                deleteCell.appendChild(deleteBtn);
+                
+                totalPrice += item.totalPrice;
+            });
+            
+            document.getElementById("totalPrice").innerText = totalPrice;
+        });
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

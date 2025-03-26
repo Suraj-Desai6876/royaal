@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmetic Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f9f1f0;
+        }
+        .logo {
+            width: 150px; /* Adjust as needed */
+            margin-top: 20px;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .product-table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #e1999f;
+            color: white;
+        }
+        .btn {
+            background-color: #663635;
+        }
+        .selected-mark {
+            font-size: 20px;
+            color: green;
+        }
+        .search-container {
+            margin: 20px auto;
+            width: 60%;
+        }
+        .h1
+        {
+            font-size: 16%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="WhatsApp Image 2025-03-26 at 1.36.28 PM-Photoroom.png" alt="Cosmetic Shop Logo" class="logo">
+        <h1 style="font-size: 0.7cm;"     class="pink-text text-darken-2">Welcome to Our Royal Cosmetic Shop</h1>
+        
+        <div class="search-container">
+            <input type="text" id="searchBox" class="browser-default" placeholder="Search product..." onkeyup="searchProduct()">
+        </div>
+        
+        <table class="striped product-table" id="productTable">
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Action</th>
+                <th>Selected</th>
+                <th>Count</th>
+            </tr>
+            <tr>
+                <td>Lipstick</td>
+                <td><input type="number" value="10" class="price-input" onchange="updatePrice(this, 'Lipstick')"></td>
+                <td><button class="btn" onclick="buyProduct('Lipstick', this)">Buy</button></td>
+                <td class="selected-mark"></td>
+                <td class="product-count">0</td>
+            </tr>
+            <tr>
+                <td>Foundation</td>
+                <td><input type="number" value="20" class="price-input" onchange="updatePrice(this, 'Foundation')"></td>
+                <td><button class="btn" onclick="buyProduct('Foundation', this)">Buy</button></td>
+                <td class="selected-mark"></td>
+                <td class="product-count">0</td>
+            </tr>
