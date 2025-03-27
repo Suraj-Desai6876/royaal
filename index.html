@@ -13,7 +13,7 @@
             background-color: #f9f1f0;
         }
         .logo {
-            width: 150px; /* Adjust as needed */
+            width: 150px;
             margin-top: 20px;
         }
         .container {
@@ -44,16 +44,12 @@
             margin: 20px auto;
             width: 60%;
         }
-        .h1
-        {
-            font-size: 16%;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="WhatsApp Image 2025-03-26 at 1.36.28 PM-Photoroom.png" alt="Cosmetic Shop Logo" class="logo">
-        <h1 style="font-size: 0.7cm;"     class="pink-text text-darken-2">Welcome to Our Royal Cosmetic Shop</h1>
+        <h1 style="font-size: 0.7cm;" class="pink-text text-darken-2">Welcome to Our Royal Cosmetic Shop</h1>
         
         <div class="search-container">
             <input type="text" id="searchBox" class="browser-default" placeholder="Search product..." onkeyup="searchProduct()">
@@ -81,3 +77,58 @@
                 <td class="selected-mark"></td>
                 <td class="product-count">0</td>
             </tr>
+        </table>
+        
+        <button class="btn" onclick="submitPurchase()">Submit</button>
+    </div>
+
+    <script>
+        function searchProduct() {
+            let input = document.getElementById("searchBox").value.toLowerCase();
+            let table = document.getElementById("productTable");
+            let rows = table.getElementsByTagName("tr");
+            for (let i = 1; i < rows.length; i++) {
+                let product = rows[i].getElementsByTagName("td")[0].innerText.toLowerCase();
+                rows[i].style.display = product.includes(input) ? "" : "none";
+            }
+        }
+
+        let purchases = [];
+
+        function buyProduct(productName, button) {
+            let row = button.parentElement.parentElement;
+            let price = parseFloat(row.getElementsByClassName("price-input")[0].value);
+            let selectedMark = row.getElementsByClassName("selected-mark")[0];
+            let countCell = row.getElementsByClassName("product-count")[0];
+            
+            let quantity = parseInt(countCell.innerText) + 1;
+            countCell.innerText = quantity;
+            selectedMark.innerHTML = "✔";
+            
+            let existingProduct = purchases.find(p => p.product === productName);
+            if (existingProduct) {
+                existingProduct.quantity = quantity;
+                existingProduct.totalPrice = price * quantity;
+            } else {
+                purchases.push({ product: productName, price: price, quantity: quantity, totalPrice: price * quantity });
+            }
+        }
+
+        function updatePrice(input, productName) {
+            let price = parseFloat(input.value);
+            if (isNaN(price) || price < 0) {
+                input.value = 0;
+            }
+        }
+
+        function submitPurchase() {
+            if (purchases.length === 0) {
+                alert("No items selected for purchase.");
+                return;
+            }
+            localStorage.setItem("purchases", JSON.stringify(purchases));
+            window.location.href = "purchase.html";
+        }
+    </script>
+</body>
+</html>
